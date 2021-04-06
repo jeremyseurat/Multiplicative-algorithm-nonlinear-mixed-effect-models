@@ -13,74 +13,74 @@ delta <- 0.0001
 iteration <- 10000
 nbSubjects <- 300
 
-# ############################################################################################################
-# # Reference 26 times
-# start <- Sys.time()
-# ResultEval <- funFIMpop(model, paramName, mu, omega, sigma, list(allTimes, allTimes, allTimes, allTimes), 
-#                         Trand, c(0,150,300,500),c(75,75,75,75)/nbSubjects,nbSubjects)
-# end <- Sys.time()
-# end-start   
-# 
-# # Fix 26 times and optimize doses
-# # Create design space and elementary FIM corresponding
-# start <- Sys.time()
-# nbTimes <- 26
-# Designs_ini<-combn(allTimes,nbTimes)
-# FIMs<-list()
-# Designs<-matrix(nrow=nbTimes+1)
-# n<-1
-# for(i in 1:dim(Designs_ini)[2]){
-#   for(j in 1:length(dose)){
-#     #the number of design groups need to change in accordance with the number of doses
-#     FIMs[[n]] <-funFIMpop(model,paramName,mu,omega,sigma,list(Designs_ini[,i]),Trand,dose[j],1,1)[[1]]
-#     Designs<-cbind(Designs,c(dose[j], Designs_ini[,i]))
-#     n<-n+1
-#   }
-# }
-# Designs <- Designs[,-1]
-# end <- Sys.time()
-# end-start   
-# 
-# # Optimize using multiplicative algorithm implemented in R or C
-# start <- Sys.time()
-# weights <- multiplicative_algo(FIMs, "C", length(paramName), Designs, nbSubjects, lambda, delta, iteration)
-# end <- Sys.time()
-# end-start   
+############################################################################################################
+# Reference 26 times
+start <- Sys.time()
+ResultEval <- funFIMpop(model, paramName, mu, omega, sigma, list(allTimes, allTimes, allTimes, allTimes),
+                        Trand, c(0,150,300,500),c(75,75,75,75)/nbSubjects,nbSubjects)
+end <- Sys.time()
+end-start
+
+# Fix 26 times and optimize doses
+# Create design space and elementary FIM corresponding
+start <- Sys.time()
+nbTimes <- 26
+Designs_ini<-combn(allTimes,nbTimes)
+FIMs<-list()
+Designs<-matrix(nrow=nbTimes+1)
+n<-1
+for(i in 1:dim(Designs_ini)[2]){
+  for(j in 1:length(dose)){
+    #the number of design groups need to change in accordance with the number of doses
+    FIMs[[n]] <-funFIMpop(model,paramName,mu,omega,sigma,list(Designs_ini[,i]),Trand,dose[j],1,1)[[1]]
+    Designs<-cbind(Designs,c(dose[j], Designs_ini[,i]))
+    n<-n+1
+  }
+}
+Designs <- Designs[,-1]
+end <- Sys.time()
+end-start
+
+# Optimize using multiplicative algorithm implemented in R or C
+start <- Sys.time()
+weights <- multiplicative_algo(FIMs, "C", length(paramName), Designs, nbSubjects, lambda, delta, iteration)
+end <- Sys.time()
+end-start
 
 ############################################################################################################
 # Reference 4 equi-spaced times
 start <- Sys.time()
-ResultEval <- funFIMpop(model, paramName, mu, omega, sigma, list(equiSpacedTimes, equiSpacedTimes, 
+ResultEval <- funFIMpop(model, paramName, mu, omega, sigma, list(equiSpacedTimes, equiSpacedTimes,
                                                                  equiSpacedTimes, equiSpacedTimes),
                         Trand, c(0,150,300,500),c(75,75,75,75)/nbSubjects,nbSubjects)
 end <- Sys.time()
-end-start 
+end-start
 
-# # Fix 4 equi-spaced times and optimize doses
-# # Create design space and elementary FIM corresponding
-# start <- Sys.time()
-# nbTimes <- 4
-# Designs_ini<-combn(equiSpacedTimes,nbTimes)
-# FIMs<-list()
-# Designs<-matrix(nrow=nbTimes+1)
-# n<-1
-# for(i in 1:dim(Designs_ini)[2]){
-#   for(j in 1:length(dose)){
-#     #the number of design groups need to change in accordance with the number of doses
-#     FIMs[[n]] <-funFIMpop(model,paramName,mu,omega,sigma,list(Designs_ini[,i]),Trand,dose[j],1,1)[[1]]
-#     Designs<-cbind(Designs,c(dose[j], Designs_ini[,i]))
-#     n<-n+1
-#   }
-# }
-# Designs <- Designs[,-1]
-# end <- Sys.time()
-# end-start  
-# 
-# # Optimize using multiplicative algorithm implemented in R or C
-# start <- Sys.time()
-# weights <- multiplicative_algo(FIMs, "C", length(paramName), Designs, nbSubjects, lambda, delta, iteration)
-# end <- Sys.time()
-# end-start   
+# Fix 4 equi-spaced times and optimize doses
+# Create design space and elementary FIM corresponding
+start <- Sys.time()
+nbTimes <- 4
+Designs_ini<-combn(equiSpacedTimes,nbTimes)
+FIMs<-list()
+Designs<-matrix(nrow=nbTimes+1)
+n<-1
+for(i in 1:dim(Designs_ini)[2]){
+  for(j in 1:length(dose)){
+    #the number of design groups need to change in accordance with the number of doses
+    FIMs[[n]] <-funFIMpop(model,paramName,mu,omega,sigma,list(Designs_ini[,i]),Trand,dose[j],1,1)[[1]]
+    Designs<-cbind(Designs,c(dose[j], Designs_ini[,i]))
+    n<-n+1
+  }
+}
+Designs <- Designs[,-1]
+end <- Sys.time()
+end-start
+
+# Optimize using multiplicative algorithm implemented in R or C
+start <- Sys.time()
+weights <- multiplicative_algo(FIMs, "C", length(paramName), Designs, nbSubjects, lambda, delta, iteration)
+end <- Sys.time()
+end-start
 
 ############################################################################################################
 # Optimize both doses and 4 times
